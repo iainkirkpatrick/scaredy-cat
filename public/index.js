@@ -1,7 +1,9 @@
 var Cat = React.createClass({
   render: function() {
     return (
-      <div id='cat'></div>
+      <div id='cat'>
+        <img src={'cat.png'} />
+      </div>
     )
   }
 });
