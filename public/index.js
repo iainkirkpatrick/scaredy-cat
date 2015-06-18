@@ -1,12 +1,12 @@
-var _ = highland;
-
-var mouse = _('mousemove', document).map(function(m) {
-  return m;
-})
-
-mouse.each(function(m) {
-  console.log(m);
-});
+// var _ = highland;
+//
+// var mouse = _('mousemove', document).map(function(m) {
+//   return m;
+// })
+//
+// mouse.each(function(m) {
+//   console.log(m);
+// });
 
 //array.map: it takes an array / list of things, applies an operation to each of them,
 //and returns a new list with each of the things transformed
@@ -21,6 +21,16 @@ mouse.each(function(m) {
 // doubled.each(function(n) {
 //   console.log(n);
 // });
+
+// $("body").mousemove(function(e) {
+//   console.log(e.pageX, e.pageY);
+// });
+
+var mouse = $("body").mousemove(function(e) {
+  return [e.pageX, e.pageY];
+});
+
+console.log(mouse);
 
 var Cat = React.createClass({
   render: function() {
