@@ -26,11 +26,17 @@
 //   console.log(e.pageX, e.pageY);
 // });
 
-var mouse = $("body").mousemove(function(e) {
-  return [e.pageX, e.pageY];
-});
 
-console.log(mouse);
+// stream
+// subscribe to stream, function on event
+var bodyMouseStream = Rx.Observable.fromEvent($('body'), 'mousemove')
+  .map(function(e) {
+    return [e.pageX, e.pageY];
+  });
+
+bodyMouseStream.subscribe(function(coords) {
+  console.log(coords);
+});
 
 var Cat = React.createClass({
   render: function() {
