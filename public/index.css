@@ -1,3 +1,11 @@
+html, body {
+  height: 100%;
+}
+
+#container {
+  height: 100%;
+}
+
 img {
     width:50px; /* you can use % */
     height: auto;
