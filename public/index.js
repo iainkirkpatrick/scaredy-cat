@@ -19,8 +19,8 @@ var Cat = React.createClass({
   render: function() {
     var catStyle = {
       position: 'relative',
-      left: this.state.coords[0],
-      top: this.state.coords[1],
+      left: this.state.coords[0] - 100,
+      top: this.state.coords[1] - 100,
     };
     return (<div style={catStyle} id='cat'><img src={'cat.png'}/></div>)
   }
