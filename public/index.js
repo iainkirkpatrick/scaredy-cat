@@ -1,8 +1,28 @@
+var bodyMouseStream = Rx.Observable.fromEvent($('html'), 'mousemove')
+  .map(function(e) {
+    return [e.pageX, e.pageY];
+  });
+
 var Cat = React.createClass({
+  getInitialState: function() {
+    return {coords: [0,0]};
+  },
+  componentDidMount: function() {
+    self = this;
+    bodyMouseStream.subscribe(function(coords) {
+      console.log(coords);
+      self.setState({
+        coords: coords
+      });
+    });
+  },
   render: function() {
-    return (
-      <div id='cat'></div>
-    )
+    var catStyle = {
+      position: 'relative',
+      left: this.state.coords[0] - 100,
+      top: this.state.coords[1] - 100,
+    };
+    return (<div style={catStyle} id='cat'><img src={'cat.png'}/></div>)
   }
 });
 
