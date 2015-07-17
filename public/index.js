@@ -1,3 +1,5 @@
+var Victor = require('victor');
+
 var bodyMouseStream = Rx.Observable.fromEvent($('html'), 'mousemove')
   .map(function(e) {
     return [e.pageX, e.pageY];
@@ -7,23 +9,31 @@ var catSize = 50;
 
 var Cat = React.createClass({
   getInitialState: function() {
-    return {coords: [0,0]};
+    return {
+      path: {
+        coords: {
+          x: 0,
+          y: 0
+        },
+        vector: new Victor(0, -1) //backwards-pointing vector, randomise later
+      }
+    };
   },
   componentDidMount: function() {
     self = this;
     bodyMouseStream.subscribe(function(mouseCoords) {
       var pounceProximity = 100
-      var currentProximity = self.calculateDistanceBetween(mouseCoords, self.state.coords, catSize)
+      var currentProximity = self.calculateDistanceBetween(mouseCoords, self.state.path.coords, catSize)
       if (currentProximity < pounceProximity) {
-        self.pounce(mouseCoords)   
+        self.pounce(mouseCoords)
       }
     });
   },
   render: function() {
     var catStyle = {
       position: 'relative',
-      left: this.state.coords[0],
-      top: this.state.coords[1],
+      left: this.state.path.coords[0],
+      top: this.state.path.coords[1],
     };
     var imgStyle = {
       width: catSize + 'px',
@@ -47,9 +57,11 @@ var Cat = React.createClass({
   },
   pounce: function(mouseCoords) {
     this.setState({
-      coords: mouseCoords.map(function(e) {
-        return e - catSize / 2;
-      }) 
+      path: {
+        coords: mouseCoords.map(function(e) {
+          return e - catSize / 2;
+        }),
+      } 
     }); 
   }
 });
