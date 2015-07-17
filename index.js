@@ -1,4 +1,7 @@
+var React = require('react');
+var Rx = require('rx');
 var Victor = require('victor');
+
 
 var bodyMouseStream = Rx.Observable.fromEvent($('html'), 'mousemove')
   .map(function(e) {
