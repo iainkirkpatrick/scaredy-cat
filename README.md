@@ -13,3 +13,6 @@ built with RxJS for mouse event streaming, and React for DOM updating.
   - if mouse has been still for 3 secs and cat is 500px away, start pounce sequence
   - pounce sequence is an easeIn-type animation: slow build then fast pounce
   - what to do when mouse is captured?
+## gamify
+- streaming score based on mouse-cat proximity
+- cat leaps at mouse
