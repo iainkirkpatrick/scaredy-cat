@@ -2,9 +2,9 @@
   "name": "scaredy-cat",
   "version": "0.0.1",
   "author": "iainkirkpatrick",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "budo index.js -o bundle.js --live"
+    "start": "budo index.js:bundle.js --live --verbose --debug | garnish"
   },
   "browserify": {
     "transform": [

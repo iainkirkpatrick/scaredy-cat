@@ -2,8 +2,7 @@ var React = require('react');
 var Rx = require('rx');
 var Victor = require('victor');
 
-
-var bodyMouseStream = Rx.Observable.fromEvent($('html'), 'mousemove')
+var bodyMouseStream = Rx.Observable.fromEvent(document.querySelector('html'), 'mousemove')
   .map(function(e) {
     return [e.pageX, e.pageY];
   });
@@ -14,10 +13,7 @@ var Cat = React.createClass({
   getInitialState: function() {
     return {
       path: {
-        coords: {
-          x: 0,
-          y: 0
-        },
+        coords: [0, 0],
         vector: new Victor(0, -1) //backwards-pointing vector, randomise later
       }
     };
@@ -26,6 +22,7 @@ var Cat = React.createClass({
     self = this;
     bodyMouseStream.subscribe(function(mouseCoords) {
       var pounceProximity = 100
+      console.log(self.state);
       var currentProximity = self.calculateDistanceBetween(mouseCoords, self.state.path.coords, catSize)
       if (currentProximity < pounceProximity) {
         self.pounce(mouseCoords)
@@ -49,7 +46,8 @@ var Cat = React.createClass({
     )
   },
   calculateDistanceBetween: function(mouseCoords, catCoords, catSize) {
-    catCentreCoords = catCoords.map(function(e) {
+    console.log(catCoords)
+    var catCentreCoords = catCoords.map(function(e) {
       return e + catSize/2
     })
     console.log(catCentreCoords);
