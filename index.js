@@ -4,7 +4,6 @@ var Victor = require('victor');
 
 var bodyMouseStream = Rx.Observable.fromEvent(document.querySelector('html'), 'mousemove')
   .map(function(e) {
-    console.log([e.pageX, e.pageY])
     return [e.pageX, e.pageY];
   });
 
@@ -20,14 +19,42 @@ var Cat = React.createClass({
     };
   },
   componentDidMount: function() {
+    this.watchMouse();
+  },
+  watchMouse: function() {
     self = this;
     bodyMouseStream.subscribe(function(mouseCoords) {
-      var pounceProximity = 100
+      var trackProximity = 500;
+      var pounceProximity = 100;
       var currentProximity = self.calculateDistanceBetween(mouseCoords, self.state.path.coords, catSize)
       if (currentProximity < pounceProximity) {
-        self.pounce(mouseCoords)
-      }
+        self.pounce(mouseCoords);
+      } else if (currentProximity < trackProximity) {
+        self.track(mouseCoords)
+      };
     });
+  },
+  track: function(mouseCoords) {
+    console.log('tracking');
+    self = this;
+    this.setState({
+      path: {
+        coords: mouseCoords.map(function(coord, i) {
+          return  self.state.path.coords[i] + (coord - self.state.path.coords[i]) / 50;
+        }),
+      } 
+    }); 
+  },
+  pounce: function(mouseCoords) {
+    console.log('pouncing');
+    self = this;
+    this.setState({
+      path: {
+        coords: mouseCoords.map(function(coord, i) {
+          return  self.state.path.coords[i] + (coord - self.state.path.coords[i]) / 5;
+        }),
+      } 
+    }); 
   },
   render: function() {
     var catStyle = {
@@ -54,17 +81,6 @@ var Cat = React.createClass({
     var centreDistance = Math.sqrt(xDist * xDist + yDist * yDist);
     return centreDistance - catSize / 2;
   },
-  pounce: function(mouseCoords) {
-    console.log(mouseCoords);
-    self = this;
-    this.setState({
-      path: {
-        coords: mouseCoords.map(function(coord, i) {
-          return  self.state.path.coords[i] + (coord - self.state.path.coords[i]) / 10;
-        }),
-      } 
-    }); 
-  }
 });
 
 React.render(
